@@ -1,0 +1,131 @@
+{
+  "schema_version": "0.4",
+  "evidence_origin": "synthetic_demo",
+  "reports": {
+    "dns_icmp": {
+      "parsed": 2,
+      "rejected": 0,
+      "counts": {
+        "dns_query": 1,
+        "icmp_port_unreachable": 1
+      },
+      "findings": [
+        {
+          "id": "dns_icmp_pattern",
+          "classification": "observed",
+          "dns_queries": 1,
+          "icmp_errors": 1,
+          "detail": "Both types occur; individual packet causality unverified",
+          "evidence": [
+            {
+              "source": "dns_icmp.txt",
+              "line": 1
+            },
+            {
+              "source": "dns_icmp.txt",
+              "line": 2
+            }
+          ]
+        }
+      ],
+      "rejection_samples": []
+    },
+    "http": {
+      "parsed": 3,
+      "rejected": 0,
+      "counts": {
+        "tcp": 1,
+        "dns_query": 1,
+        "dns_response": 1
+      },
+      "findings": [
+        {
+          "id": "http_get",
+          "classification": "observed",
+          "count": 1,
+          "detail": "Visible HTTP GETs; total requests unknown",
+          "evidence": [
+            {
+              "source": "http.txt",
+              "line": 1
+            }
+          ]
+        },
+        {
+          "id": "dns_answers",
+          "classification": "observed",
+          "queries": 1,
+          "answers": 1
+        }
+      ],
+      "rejection_samples": []
+    },
+    "syn": {
+      "parsed": 7,
+      "rejected": 0,
+      "counts": {
+        "tcp": 6,
+        "http": 1
+      },
+      "findings": [
+        {
+          "id": "syn_burst",
+          "classification": "suspicious",
+          "source_ip": "203.0.113.0",
+          "count_in_window": 5,
+          "window_seconds": 10.0,
+          "detail": "SYN burst observed; cannot establish exhaustion or intent",
+          "evidence": [
+            {
+              "source": "syn.txt",
+              "line": 1,
+              "packet": 1
+            },
+            {
+              "source": "syn.txt",
+              "line": 2,
+              "packet": 2
+            },
+            {
+              "source": "syn.txt",
+              "line": 3,
+              "packet": 3
+            },
+            {
+              "source": "syn.txt",
+              "line": 4,
+              "packet": 4
+            },
+            {
+              "source": "syn.txt",
+              "line": 5,
+              "packet": 5
+            }
+          ]
+        },
+        {
+          "id": "ack_counterexample",
+          "classification": "observed",
+          "count": 1,
+          "detail": "At least one ACK from the suspected source contradicts a never-ACK assertion",
+          "evidence": [
+            {
+              "source": "syn.txt",
+              "line": 6,
+              "packet": 6
+            }
+          ]
+        },
+        {
+          "id": "http_504",
+          "classification": "observed",
+          "count": 1
+        }
+      ],
+      "rejection_samples": []
+    }
+  },
+  "limitations": [
+    "Synthetic demonstration, not evidence of a real incident."
+  ]
+}
