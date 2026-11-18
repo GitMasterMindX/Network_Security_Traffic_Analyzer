@@ -1,23 +1,62 @@
-# Network Security Traffic Analyzer — Public Demo
+# Network Security Traffic Analyzer
 
-Educational Python/Jupyter network-log analyzer demonstrating DNS/ICMP, HTTP and TCP SYN observations with source-line provenance. **All included example traffic is synthetic.** This is not a production IDS and cannot establish attack intent or server exhaustion.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GitMasterMindX/Network_Security_Traffic_Analyzer/blob/main/Network_Security_Traffic_Analyzer_Public_Demo.ipynb)
+
+Evidence-driven Python network-log analysis with source-line provenance, rule-based detection and structured JSON reporting. All public inputs are synthetic. Educational prototype, not a production IDS.
+
+## Architecture
+
+```mermaid
+flowchart TD
+ A[Network log text] --> B[Protocol parsing and validation]
+ B --> C[Rule-based detection]
+ C --> D[Findings and evidence references]
+ D --> E[JSON report]
+```
+
+## Detection capabilities
+
+| Scenario | Public demo findings |
+|---|---|
+| DNS / ICMP | Query and port-unreachable pattern |
+| HTTP | GET and DNS answers |
+| TCP | Suspicious SYN burst, ACK counterexample, HTTP 504 |
+
+## Run in Google Colab
+
+Use the badge above, then **Runtime > Run all**. The setup clones the public repository and checks out the pinned analyzer baseline `28829fc98de74a22a70ac8371256f460d5788bf6`. No ZIP upload is needed. Review notebook code before executing it. Internet access is required.
 
 ## Run locally
 
-Extract the ZIP, open `Network_Security_Traffic_Analyzer_Public_Demo.ipynb` from this directory in Jupyter, and Run All; or run `python run_demo.py`. For tests, install pytest (`python -m pip install pytest`) then run `python -m pytest -q`. The demo analyzer uses the Python standard library.
+Clone the repository, enter its directory, and run:
 
-## Google Colab
+```bash
+python run_demo.py
+python -m pip install pytest==9.2.0
+python -m pytest -q
+```
 
-Open the notebook and Run All. If the project is not already present in the Colab runtime, the first code cell asks you to upload `Network_Security_Traffic_Analyzer_Public_Release.zip`. It extracts the files and runs the synthetic demo.
+Alternatively open `Network_Security_Traffic_Analyzer_Public_Demo.ipynb` in local Jupyter and run all cells. The analyzer itself uses only the Python standard library.
 
-## Scope and limitations
+## Validation
 
-- Input parsers accept limited tcpdump/Wireshark *text* formats, not raw PCAP.
-- Results include source-line references; findings are observed or suspicious, never definitive attribution.
-- Synthetic demo report is written to `reports/synthetic_demo_report.json`.
-- The internal code retains an educational, fixed-IP ACK counterexample rule; this is **not** a general-purpose ACK correlation algorithm.
-- The underlying analyzer was originally developed for private course evidence, which is intentionally **not** included.
+- Windows, Python 3.12.10: 6 public tests passed (initial release).
+- Public demo: DNS/ICMP, HTTP and TCP scenarios; JSON report at `reports/synthetic_demo_report.json`.
+- Private course evidence is excluded from this repository.
 
-## Layout
+## Limitations
 
-`analyzer_v04.py`: parsing/detection; `run_demo.py`: CLI demo; `synthetic_data/`: synthetic inputs; `tests/`: public tests; notebook: interactive demonstration.
+- Limited tcpdump/Wireshark text formats; no raw PCAP reader.
+- Findings are observed or suspicious; SYN bursts do not prove intent or resource exhaustion.
+- DNS/ICMP co-occurrence does not prove packet-level causality.
+- The ACK counterexample rule uses a fixed educational IP address, not general-purpose connection correlation.
+- Synthetic data is not evidence of a real incident.
+
+## Repository layout
+
+- `analyzer_v04.py`: parsing and detection
+- `run_demo.py`: command-line demo
+- `synthetic_data/`: public input fixtures
+- `tests/`: regression tests
+- `reports/`: example structured report
+- `Network_Security_Traffic_Analyzer_Public_Demo.ipynb`: interactive demo
