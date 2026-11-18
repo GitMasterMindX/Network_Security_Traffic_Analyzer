@@ -4,6 +4,14 @@
 
 Evidence-driven Python network-log analysis with source-line provenance, rule-based detection and structured JSON reporting. All public inputs are synthetic. Educational prototype, not a production IDS.
 
+## Quick start — Google Colab
+
+1. Click **Open in Colab** above (Google sign-in may be required).
+2. Review the code, then select **Runtime → Run all** and approve the external notebook warning if you trust the code.
+3. Review the final results and optionally download the JSON report.
+
+No ZIP upload or local Python installation is required. Internet access is required.
+
 ## Architecture
 
 ```mermaid
@@ -22,7 +30,7 @@ flowchart TD
 | HTTP | GET and DNS answers |
 | TCP | Suspicious SYN burst, ACK counterexample, HTTP 504 |
 
-## Run in Google Colab
+## Reproducibility in Google Colab
 
 Use the badge above, then **Runtime > Run all**. The setup clones the public repository and checks out the pinned analyzer baseline `28829fc98de74a22a70ac8371256f460d5788bf6`. No ZIP upload is needed. Review notebook code before executing it. Internet access is required.
 
@@ -31,8 +39,8 @@ Use the badge above, then **Runtime > Run all**. The setup clones the public rep
 Clone the repository, enter its directory, and run:
 
 ```bash
-python run_demo.py
 python -m pip install pytest==9.2.0
+python run_demo.py
 python -m pytest -q
 ```
 
@@ -40,7 +48,8 @@ Alternatively open `Network_Security_Traffic_Analyzer_Public_Demo.ipynb` in loca
 
 ## Validation
 
-- Windows, Python 3.12.10: 6 public tests passed (initial release).
+- Windows, Python 3.12.10: 6 public tests passed.
+- Google Colab: 6 public tests passed; automatic setup and JSON generation verified before the recruiter UX update.
 - Public demo: DNS/ICMP, HTTP and TCP scenarios; JSON report at `reports/synthetic_demo_report.json`.
 - Private course evidence is excluded from this repository.
 
